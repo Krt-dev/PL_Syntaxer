@@ -1,24 +1,25 @@
 import re
 
+
 def isValid(inStr: str) -> bool:
-    if 0 < len(re.compile("char").findall(inStr)):
-        if 0 < len(re.compile(r"^ *(const)? *char *[a-zA-Z_]+[0-9a-zA-Z_]*\[[0-9]+\]").findall(inStr)):
-            return bool(re.match(r"^ *(const)? *char *[a-zA-Z_]+[0-9a-zA-Z_]*\[[0-9]+\] *(= *\".*\")? *;$", inStr))
-        return bool(re.match(r"^ (const)? *char *[a-zA-Z_]+[0-9a-zA-Z_] *(= *\'.\')? *;$", inStr))
-    elif 0 < len(re.compile("int").findall(inStr)):
-        return bool(re.match(r"^ (const)? *int *[a-zA-Z_]+[0-9a-zA-Z_] *(= *[0-9]+)? *;$", inStr))
-    elif 0 < len(re.compile("float").findall(inStr)):
-        return bool(re.match(r"^ (const)? *float *[a-zA-Z_]+[0-9a-zA-Z_] *(= *[0-9]+\.[0-9]+)? *;$", inStr))
-    elif 0 < len(re.compile("double").findall(inStr)):
-        return bool(re.match(r"^ (const)? *double *[a-zA-Z_]+[0-9a-zA-Z_] *(= *[0-9]+\.[0-9]+)? *;$", inStr))
-    return False
+    char_regex = r"^(const)?\s*char\s+[a-zA-Z_]+\w*\[[0-9]+\]\s*(=\s*\".*\")?;$"
+    int_regex = r"^(const)?\s*int\s+[a-zA-Z_]+\w*\s*(=\s*[0-9]+)?\s*;$"
+    float_regex = r"^(const)?\s*float\s+[a-zA-Z_]+\w*\s*(=\s*[0-9]+\.[0-9]+)?\s*;$"
+    double_regex = r"^(const)?\s*double\s+[a-zA-Z_]+\w*\s*(=\s*[0-9]+\.[0-9]+)?\s*;$"
+
+   
+    if re.match(char_regex, inStr) or re.match(int_regex, inStr) or re.match(float_regex, inStr) or re.match(double_regex, inStr):
+        return True
+    else:
+        return False
 
 def main():
     while True:
-        print("1. Enter one-line C code")
+        print("Menu:")
+        print("1. Input one-line C code")
         print("2. Quit")
         choice = input("Enter your choice: ")
-        
+
         if choice == "1":
             inFromUsr = input("Input one line C code: ")
             if isValid(inFromUsr):
