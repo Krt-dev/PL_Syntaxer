@@ -1,14 +1,39 @@
 import re
 
+TOKEN_TYPES = {
+    'STORAGE_CLASS_SPECIFIER': r'(auto|register|static|extern)?',
+    'TYPE_QUALIFIER': r'(const|volatile)?',
+    'SIGN_SPECIFIER': r'(signed|unsigned)?',
+    'SIZE_SPECIFIER': r'(short|long(\s+long)?)?',
+    'BASE_TYPE': r'(int|float|double|boolean|char)',
+    'IDENTIFIER': r'[a-zA-Z_][a-zA-Z0-9_]*',
+    'ASSIGNMENT_OP': r'=',
+    'INTEGER': r'-?\d+',
+    'FLOAT': r'-?\d+\.\d+',
+    'BOOLEAN': r'(true|false)',
+    'STRING': r'"(?:\\"|[^"])*"',
+    'CHAR': r"'.'",
+    'SEMICOLON': r';',
+    'OPERATOR': r'[\+\-\*\/\%\&\|\^\>\<]',
+    'COMMA': r',',
+    'BRACKET': r'[\[\]\(\)\{\}]',
+    'FUNCTION': r'(printf|scanf)',
+    'BITWISE_OP': r'[\&\|\^\>\<\<\>\>]',
+    'FORMAT_SPECIFIER': r'%[\-\+]?(\d+|\*)?(\.\d+)?[cdieEfgGllopuXxs%]'
+}
 
 def isValid(inStr: str) -> bool:
-    char_regex = r"^(const)?\s*char\s+[a-zA-Z_]+\w*\[[0-9]+\]\s*(=\s*\".*\")?;$"
-    int_regex = r"^(const)?\s*int\s+[a-zA-Z_]+\w*\s*(=\s*[0-9]+)?\s*;$"
-    float_regex = r"^(const)?\s*float\s+[a-zA-Z_]+\w*\s*(=\s*[0-9]+\.[0-9]+)?\s*;$"
-    double_regex = r"^(const)?\s*double\s+[a-zA-Z_]+\w*\s*(=\s*[0-9]+\.[0-9]+)?\s*;$"
+    type_regex = r"^(?:" + TOKEN_TYPES['STORAGE_CLASS_SPECIFIER'] + r"\s+)?" + \
+                 TOKEN_TYPES['BASE_TYPE'] + \
+                 r"\s+" + TOKEN_TYPES['IDENTIFIER'] + \
+                 r"\s*(?:" + TOKEN_TYPES['ASSIGNMENT_OP'] + \
+                 r"\s*(?:" + TOKEN_TYPES['INTEGER'] + \
+                 r"|" + TOKEN_TYPES['FLOAT'] + \
+                 r"|" + TOKEN_TYPES['STRING'] + \
+                 r"|" + TOKEN_TYPES['CHAR'] + r"))?" + \
+                 TOKEN_TYPES['SEMICOLON'] + r"$"
 
-   
-    if re.match(char_regex, inStr) or re.match(int_regex, inStr) or re.match(float_regex, inStr) or re.match(double_regex, inStr):
+    if re.match(type_regex, inStr):
         return True
     else:
         return False
