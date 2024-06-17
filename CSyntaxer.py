@@ -11,7 +11,7 @@ TOKEN_TYPES = {
     'INTEGER': r'-?\d+',
     'FLOAT': r'-?\d+\.\d+',
     'BOOLEAN': r'(true|false)',
-    'STRING': r'"(?:\\"|[^"])*"',
+    'STRING': r'"(?:\\"|[^"])*"', 
     'CHAR': r"'.'",
     'SEMICOLON': r';',
     'OPERATOR': r'[\+\-\*\/\%\&\|\^\>\<]',
